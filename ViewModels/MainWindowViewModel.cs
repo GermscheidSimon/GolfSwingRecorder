@@ -2,19 +2,19 @@
 using Avalonia.Controls;
 using LibVLCSharp.Shared;
 using GolfRecorder.Services;
+using GolfRecorder.Proxy;
 
 namespace GolfRecorder.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IDisposable
     {
         private readonly LibVLC _libVlc = new LibVLC();
-        
+
         public MediaPlayer MediaPlayer { get; }
         
         public MainWindowViewModel()
         {
             MediaPlayer = new MediaPlayer(_libVlc);
-            WifiService.setup();
         }
 
         public void Play()

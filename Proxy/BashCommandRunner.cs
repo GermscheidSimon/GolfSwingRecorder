@@ -1,15 +1,14 @@
-using System;
 using System.Diagnostics;
 
-namespace GolfRecorder.Adapters
+namespace GolfRecorder.Proxy
 {
-    public class NetworkSetupWireless
+    public class BashCommandRunner : CommandRunner
     {
-        public string test =
-            "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport --scan";
-        
-
-        public static void RunCommand(string command)
+        public BashCommandRunner()
+        {
+            
+        }
+        public void RunCommand(string command)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {

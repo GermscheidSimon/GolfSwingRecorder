@@ -1,14 +1,9 @@
 
-using GolfRecorder.Proxy;
-
-namespace GolfRecorder.WifiService
+namespace GolfRecorder.WifiServices
 {
     public abstract class WifiService
     {
-
-        public static void Connect()
-        {
-            
-        }
+        public WifiService() {}
+        public abstract void Connect(string ssid, string password);
     }
 }

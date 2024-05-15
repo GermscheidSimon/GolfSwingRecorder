@@ -1,20 +1,31 @@
 ﻿using System;
 using Avalonia.Controls;
 using LibVLCSharp.Shared;
-using GolfRecorder.Services;
-using GolfRecorder.Proxy;
+using GolfRecorder.WifiServices;
+using System.Runtime.InteropServices;
 
 namespace GolfRecorder.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, IDisposable
     {
         private readonly LibVLC _libVlc = new LibVLC();
+        private WifiService wifi;
 
         public MediaPlayer MediaPlayer { get; }
         
         public MainWindowViewModel()
         {
             MediaPlayer = new MediaPlayer(_libVlc);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                wifi = new WindowsWifiService();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                wifi = new MacOsWifiService();
+            }
+
+            wifi.Connect("wifi", "123");
         }
 
         public void Play()

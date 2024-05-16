@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using DynamicData;
 
@@ -22,18 +24,20 @@ namespace GolfRecorder.WifiServices
                 string[] scanResLines = scanResult.Split(Environment.NewLine);
                 int indexOfSsidRow = scanResLines[0].IndexOf("SSID") + 4;
 
-                if (scanResLines.Length <= 0)
+                if (scanResLines.Length <= 1)
                 {
                     Console.WriteLine("No Networks Detected");
                     return;
                 }
+
+                List<string> listOfSsidsFound = new List<string>();
             
-                for (int i = 1; i < scanResLines.Length; i++)
+                for (int i = 1; i < (scanResLines.Length - 1); i++)
                 {
-                    scanResLines[i] = scanResLines[i].Substring(0, indexOfSsidRow).Trim();
+                    listOfSsidsFound.Add(scanResLines[i].Substring(0, indexOfSsidRow).Trim());
                 }
 
-                if (scanResLines.IndexOf(ssid) > 0)
+                if (listOfSsidsFound.IndexOf(ssid) > 0)
                 {
                     ssidFound = true;
                     break;
@@ -72,9 +76,9 @@ namespace GolfRecorder.WifiServices
                 Console.WriteLine("Failed To Find Interfaces");
                 return;
             }
-            var interfaceId = interfaceScanList[wifiInterfaceLineIndex].Replace("Device: ", "");
+            var interfaceId = interfaceScanList[wifiInterfaceLineIndex + 1].Replace("Device: ", "");
 
-            Console.WriteLine(interfaceId);
+            Console.WriteLine($"Current Wifi Interface: {interfaceId}");
 
             RunCommand($"networksetup -setairportnetwork '{interfaceId}' '{ssid}' '{password}");
             

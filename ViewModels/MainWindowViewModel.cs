@@ -25,7 +25,7 @@ namespace GolfRecorder.ViewModels
                 wifi = new MacOsWifiService();
             }
 
-            wifi.Connect("Snozzberries", "123");
+            wifi.Connect();
         }
 
         public void Play()
